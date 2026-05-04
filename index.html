@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coorg Coffee Roastery — The Essence of Coorg in a Cup</title>
+  <meta name="description" content="The Essence of Coorg in a Cup — 100% Arabica, shade-grown, small-batch roasted. The Gate Mall, Muscat, Oman." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #C5A059; --gold-dim: rgba(197,160,89,0.5);
+      --forest: #0B1A13; --forest-card: #0D1F15; --forest-dark: #080F0A;
+      --border: rgba(45,70,53,0.5); --cream: #F2F4F3;
+      --whatsapp: #25D366;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', system-ui, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--forest); color: var(--cream); font-family: var(--font-sans); overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--forest); }
+    ::-webkit-scrollbar-thumb { background: rgba(45,70,53,0.8); border-radius:3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ─── LOADER ─── */
+    #loader {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--forest);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+      transition: opacity 0.7s ease, visibility 0.7s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-anim {
+      position: relative; width: 100px; height: 100px;
+    }
+    /* Bean shape */
+    @keyframes beanPulse {
+      0%,100% { transform: scaleX(1) scaleY(1) rotate(0deg); opacity:1; }
+      40% { transform: scaleX(0.6) scaleY(0.9) rotate(15deg); opacity:0.7; }
+      70% { transform: scaleX(1.1) scaleY(1.1) rotate(-5deg); opacity:1; }
+    }
+    @keyframes steamRise {
+      0% { transform: translateY(0) scaleX(1); opacity:0.7; }
+      100% { transform: translateY(-36px) scaleX(1.4); opacity:0; }
+    }
+    @keyframes cupAppear {
+      0%,50% { opacity:0; transform: scale(0.7) translateY(10px); }
+      80%,100% { opacity:1; transform: scale(1) translateY(0); }
+    }
+    @keyframes loaderFadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+    .loader-bean {
+      position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      width: 52px; height: 68px;
+      animation: beanPulse 1.8s ease-in-out infinite;
+    }
+    .loader-cup {
+      position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+      width: 60px; height: 60px;
+      animation: cupAppear 1.8s ease-in-out infinite;
+    }
+    .loader-steam {
+      position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%);
+    }
+    .steam-line {
+      width: 3px; background: rgba(197,160,89,0.5); border-radius: 2px;
+      animation: steamRise 1.2s ease-in-out infinite;
+    }
+    .steam-line:nth-child(1) { height:18px; margin-left:-8px; animation-delay:0s; }
+    .steam-line:nth-child(2) { height:24px; animation-delay:0.3s; }
+    .steam-line:nth-child(3) { height:14px; margin-left:8px; animation-delay:0.6s; }
+    .loader-label { font-family:var(--font-sans); font-size:9px; letter-spacing:0.45em; text-transform:uppercase; color:rgba(197,160,89,0.6); animation: loaderFadeIn 0.6s ease-out forwards; }
+    .loader-title { font-family:var(--font-serif); font-size:28px; font-weight:300; letter-spacing:0.25em; color:var(--cream); }
+    .loader-bar-wrap { width:180px; height:1px; background:rgba(45,70,53,0.5); overflow:hidden; }
+    .loader-bar { height:100%; background:var(--gold); animation: loaderProg 2.2s ease-out forwards; }
+    @keyframes loaderProg { from{width:0} to{width:100%} }
+
+    /* ─── PAGES ─── */
+    .page { display:none; }
+    .page.active { display:block; }
+
+    /* ─── NAV ─── */
+    nav { position:fixed; top:0; left:0; right:0; z-index:200; transition:background 0.5s, border-color 0.5s; border-bottom:1px solid transparent; }
+    nav.scrolled { background:rgba(11,26,19,0.88); backdrop-filter:blur(24px); border-color:rgba(45,70,53,0.4); }
+    .nav-inner { max-width:1280px; margin:0 auto; padding:0 48px; display:flex; align-items:center; justify-content:space-between; height:76px; }
+    .nav-brand { font-family:var(--font-serif); font-size:26px; font-weight:300; letter-spacing:0.35em; color:var(--gold); text-decoration:none; cursor:pointer; transition:color 0.3s; }
+    .nav-brand:hover { color:var(--cream); }
+    .nav-links { display:flex; align-items:center; gap:36px; }
+    .nav-links a { font-family:var(--font-sans); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; text-decoration:none; color:rgba(242,244,243,0.6); transition:color 0.3s; cursor:pointer; }
+    .nav-links a:hover,.nav-links a.active { color:var(--cream); }
+    .nav-links a.active { color:var(--gold); }
+    .nav-cta { margin-left:8px; padding:10px 24px; background:var(--gold); color:var(--forest)!important; font-weight:600; letter-spacing:0.2em; }
+    .nav-cta:hover { background:rgba(197,160,89,0.85)!important; color:var(--forest)!important; }
+    .hamburger { display:none; background:none; border:none; cursor:pointer; padding:8px; color:var(--cream); flex-direction:column; gap:5px; }
+    .hamburger span { display:block; width:24px; height:1.5px; background:currentColor; transition:all 0.3s; }
+    .mob-menu { position:fixed; inset:0; z-index:190; background:rgba(11,26,19,0.97); backdrop-filter:blur(24px); padding:100px 40px 40px; display:none; flex-direction:column; gap:32px; }
+    .mob-menu.open { display:flex; }
+    .mob-menu a { font-family:var(--font-serif); font-size:52px; font-weight:300; text-decoration:none; color:var(--cream); transition:color 0.3s; cursor:pointer; }
+    .mob-menu a:hover { color:var(--gold); }
+    .mob-foot { padding-top:32px; border-top:1px solid rgba(45,70,53,0.4); font-family:var(--font-sans); font-size:10px; color:rgba(242,244,243,0.3); letter-spacing:0.3em; text-transform:uppercase; }
+    @media(max-width:768px){.hamburger{display:flex}.nav-links{display:none}.nav-inner{padding:0 20px}}
+
+    /* ─── SHARED TYPOGRAPHY / LAYOUT ─── */
+    .serif { font-family:var(--font-serif); }
+    .gold { color:var(--gold); }
+    .eyebrow { display:flex; align-items:center; gap:16px; }
+    .eyebrow-label { font-family:var(--font-sans); font-size:10px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); }
+    .hline { display:inline-block; height:1px; background:var(--gold); }
+    .section-wrap { max-width:1280px; margin:0 auto; }
+    .btn-gold { display:inline-flex; align-items:center; gap:10px; padding:14px 36px; background:var(--gold); color:var(--forest); font-family:var(--font-sans); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; font-weight:600; border:none; cursor:pointer; transition:background 0.3s; text-decoration:none; }
+    .btn-gold:hover { background:rgba(197,160,89,0.85); }
+    .btn-outline-gold { display:inline-flex; align-items:center; gap:10px; padding:14px 36px; border:1px solid rgba(197,160,89,0.5); color:var(--gold); font-family:var(--font-sans); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; background:transparent; cursor:pointer; transition:all 0.3s; text-decoration:none; }
+    .btn-outline-gold:hover { background:rgba(197,160,89,0.08); border-color:var(--gold); }
+    .btn-wa { display:inline-flex; align-items:center; gap:10px; padding:14px 32px; border:1px solid rgba(37,211,102,0.5); color:var(--whatsapp); font-family:var(--font-sans); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; font-weight:600; background:transparent; cursor:pointer; transition:all 0.3s; text-decoration:none; }
+    .btn-wa:hover { background:rgba(37,211,102,0.1); border-color:var(--whatsapp); }
+    .btn-wa svg,.btn-wa-icon { width:16px; height:16px; flex-shrink:0; }
+    .hairline { height:1px; background:linear-gradient(to right,transparent,rgba(197,160,89,0.2),transparent); }
+
+    /* ─── BOTANICAL SVGs inline ─── */
+    .botanical { position:absolute; pointer-events:none; }
+
+    /* ─── HERO ─── */
+    .hero { position:relative; height:100vh; min-height:720px; overflow:hidden; }
+    .hero-bg { position:absolute; inset:0; background-image:url('https://media.base44.com/images/public/69ebc2cc8599861a01a644de/881437740_generated_image.png'); background-size:cover; background-position:center; }
+    .hero-overlay { position:absolute; inset:0; background:linear-gradient(135deg,rgba(11,26,19,0.85) 0%,rgba(11,26,19,0.55) 55%,rgba(11,26,19,0.25) 100%); }
+    .hero-overlay2 { position:absolute; inset:0; background:linear-gradient(to bottom,transparent 50%,var(--forest) 100%); }
+    .hero-content { position:absolute; bottom:0; left:0; right:0; z-index:2; max-width:1280px; margin:0 auto; padding:0 48px 100px; }
+    .hero-tag { font-family:var(--font-sans); font-size:10px; letter-spacing:0.45em; text-transform:uppercase; color:var(--gold); }
+    .hero h1 { font-family:var(--font-serif); font-size:clamp(56px,8.5vw,118px); font-weight:300; line-height:1.01; color:var(--cream); margin:16px 0 24px; }
+    .hero h1 em { font-style:italic; color:var(--gold); }
+    .hero-sub { font-family:var(--font-sans); font-size:14px; color:rgba(242,244,243,0.6); max-width:480px; line-height:1.9; margin-bottom:44px; }
+    .hero-ctas { display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+    .scroll-ind { position:absolute; bottom:44px; left:50%; transform:translateX(-50%); z-index:2; display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .scroll-ind span { font-family:var(--font-sans); font-size:9px; letter-spacing:0.45em; text-transform:uppercase; color:rgba(242,244,243,0.25); }
+    @keyframes scrollPulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.15)} }
+    .scroll-line { width:1px; height:52px; background:linear-gradient(to bottom,var(--gold),transparent); animation:scrollPulse 2.2s ease-in-out infinite; }
+    @media(max-width:768px){.hero-content{padding:0 24px 80px;}}
+
+    /* ─── STATS ─── */
+    .stats { padding:56px 48px; border-top:1px solid rgba(45,70,53,0.5); border-bottom:1px solid rgba(45,70,53,0.5); position:relative; overflow:hidden; }
+    .stats-grid { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:repeat(6,1fr); gap:16px; }
+    .stat { text-align:center; }
+    .stat-val { font-family:var(--font-serif); font-size:28px; color:var(--gold); display:block; margin-bottom:6px; transition:transform 0.3s; }
+    .stat:hover .stat-val { transform:scale(1.05); }
+    .stat-lbl { font-family:var(--font-sans); font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(242,244,243,0.38); }
+    @media(max-width:900px){.stats-grid{grid-template-columns:repeat(3,1fr)}.stats{padding:40px 20px}}
+    @media(max-width:480px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+
+    /* ─── ORIGIN ─── */
+    .origin-section { padding:140px 48px; position:relative; overflow:hidden; }
+    .origin-grid { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:5fr 7fr; gap:48px; align-items:start; }
+    .origin-text h2 { font-family:var(--font-serif); font-size:clamp(38px,5vw,62px); font-weight:300; color:var(--cream); line-height:1.1; margin-bottom:28px; }
+    .origin-text h2 em { font-style:italic; color:var(--gold); }
+    .origin-text p { font-family:var(--font-sans); font-size:16px; color:rgba(242,244,243,0.62); line-height:1.8; margin-bottom:20px; max-width:420px; }
+    .origin-text a { font-family:var(--font-sans); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:color 0.3s; margin-top:16px; }
+    .origin-text a:hover { color:var(--cream); }
+    .origin-imgs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .img-tall { grid-row:span 2; aspect-ratio:3/4; overflow:hidden; }
+    .img-sq { aspect-ratio:1; overflow:hidden; margin-top:60px; }
+    .img-rect { aspect-ratio:4/3; overflow:hidden; }
+    .img-tall img,.img-sq img,.img-rect img { width:100%; height:100%; object-fit:cover; transition:transform 1s ease; display:block; }
+    .img-tall:hover img,.img-sq:hover img,.img-rect:hover img { transform:scale(1.05); }
+    @media(max-width:1024px){.origin-grid{grid-template-columns:1fr}.origin-section{padding:100px 20px}}
+    @media(max-width:640px){.origin-imgs{grid-template-columns:1fr}}
+
+    /* ─── FEATURED PRODUCTS (Home) ─── */
+    .feat-prod-section { padding:140px 48px; position:relative; overflow:hidden; }
+    .feat-prod-hdr { max-width:1280px; margin:0 auto 80px; display:flex; flex-direction:row; align-items:flex-end; justify-content:space-between; gap:32px; flex-wrap:wrap; }
+    .feat-prod-hdr h2 { font-family:var(--font-serif); font-size:clamp(36px,5vw,60px); font-weight:300; color:var(--cream); line-height:1.05; }
+    .feat-prod-hdr h2 em { font-style:italic; color:var(--gold); }
+    .feat-prod-hdr p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.5); line-height:1.8; max-width:320px; margin-top:12px; }
+    .feat-prod-hdr a { font-family:var(--font-sans); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:color 0.3s; flex-shrink:0; }
+    .feat-prod-hdr a:hover { color:var(--cream); }
+    .feat-prod-grid { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:repeat(3,1fr); gap:32px; }
+    .feat-card { cursor:pointer; }
+    .feat-card-img { position:relative; aspect-ratio:3/4; overflow:hidden; background:rgba(45,70,53,0.25); margin-bottom:24px; }
+    .feat-card-img img { width:100%; height:100%; object-fit:cover; transition:transform 1s ease; display:block; }
+    .feat-card:hover .feat-card-img img { transform:scale(1.05); }
+    .feat-roast-badge { position:absolute; top:16px; left:16px; z-index:2; font-family:var(--font-sans); font-size:9px; letter-spacing:0.25em; text-transform:uppercase; padding:6px 12px; border:1px solid rgba(197,160,89,0.3); color:var(--gold); background:rgba(11,26,19,0.8); backdrop-filter:blur(8px); }
+    .feat-hover-overlay { position:absolute; inset:0; background:rgba(11,26,19,0.88); backdrop-filter:blur(4px); opacity:0; transition:opacity 0.5s; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; padding:24px; }
+    .feat-card:hover .feat-hover-overlay { opacity:1; }
+    .feat-hover-overlay .tasting-label { font-family:var(--font-sans); font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); }
+    .feat-note-chip { font-family:var(--font-sans); font-size:11px; padding:6px 14px; border:1px solid rgba(197,160,89,0.35); color:var(--cream); }
+    .feat-note-row { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; }
+    .feat-card-name { font-family:var(--font-serif); font-size:24px; font-weight:300; color:var(--cream); margin-bottom:4px; }
+    .feat-card-desc { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.55); line-height:1.7; }
+    .feat-card-weight { font-family:var(--font-sans); font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(242,244,243,0.28); margin-top:4px; }
+    @media(max-width:900px){.feat-prod-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:560px){.feat-prod-grid{grid-template-columns:1fr}.feat-prod-section{padding:100px 20px}}
+
+    /* ─── PROCESS ─── */
+    .process-section { padding:140px 48px; background:var(--forest-card); position:relative; }
+    .process-section::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(to right,transparent,rgba(197,160,89,0.2),transparent); }
+    .process-hdr { max-width:1280px; margin:0 auto 96px; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:end; }
+    .process-hdr h2 { font-family:var(--font-serif); font-size:clamp(38px,5vw,60px); font-weight:300; color:var(--cream); line-height:1.05; }
+    .process-hdr h2 em { font-style:italic; color:var(--gold); }
+    .process-hdr p { font-family:var(--font-sans); font-size:16px; color:rgba(242,244,243,0.55); line-height:1.8; max-width:400px; }
+    .process-steps { max-width:1280px; margin:0 auto 96px; display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+    .process-step { padding:32px; border:1px solid rgba(45,70,53,0.6); transition:border-color 0.5s; }
+    .process-step:hover { border-color:rgba(197,160,89,0.3); }
+    .process-step-num { font-family:var(--font-serif); font-size:52px; color:rgba(197,160,89,0.18); line-height:1; margin-bottom:24px; }
+    .process-step h3 { font-family:var(--font-serif); font-size:22px; color:var(--cream); margin-bottom:10px; }
+    .process-step p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.5); line-height:1.8; }
+    .process-img-wrap { max-width:1280px; margin:0 auto; position:relative; aspect-ratio:21/8; overflow:hidden; }
+    .process-img-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+    .process-img-overlay { position:absolute; inset:0; background:linear-gradient(to right,rgba(11,26,19,0.82) 0%,transparent 55%); }
+    .process-img-text { position:absolute; left:48px; top:50%; transform:translateY(-50%); max-width:340px; }
+    .process-img-text .eyebrow-label { margin-bottom:16px; display:block; }
+    .process-img-text p { font-family:var(--font-serif); font-size:26px; color:var(--cream); line-height:1.45; font-style:italic; }
+    @media(max-width:1024px){.process-steps{grid-template-columns:1fr 1fr}.process-hdr{grid-template-columns:1fr}.process-section{padding:100px 20px}}
+    @media(max-width:560px){.process-steps{grid-template-columns:1fr}.process-img-wrap{aspect-ratio:4/3}}
+
+    /* ─── CAFÉ PREVIEW ─── */
+    .cafe-preview-section { padding:140px 48px; position:relative; overflow:hidden; }
+    .cafe-preview-grid { max-width:1280px; margin:0 auto 64px; display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+    .cafe-panel { position:relative; min-height:640px; overflow:hidden; }
+    .cafe-panel img { width:100%; height:100%; object-fit:cover; position:absolute; inset:0; transition:transform 1s ease; display:block; }
+    .cafe-panel:hover img { transform:scale(1.05); }
+    .cafe-panel-overlay { position:absolute; inset:0; background:linear-gradient(to top,rgba(11,26,19,0.9) 0%,rgba(11,26,19,0.15) 50%,transparent 100%); z-index:1; }
+    .cafe-panel-content { position:absolute; bottom:0; left:0; right:0; z-index:2; padding:32px; }
+    .cafe-panel-content h2 { font-family:var(--font-serif); font-size:clamp(30px,4vw,48px); font-weight:300; color:var(--cream); margin-bottom:10px; }
+    .cafe-panel-content h2 em { font-style:italic; color:var(--gold); }
+    .cafe-panel-content p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.6); line-height:1.7; max-width:340px; }
+    .cafe-hours-label { font-family:var(--font-sans); font-size:9px; letter-spacing:0.4em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; display:block; }
+    .cafe-hours-text { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.7); line-height:1.7; margin-bottom:24px; }
+    .cafe-menu-strip { max-width:1280px; margin:0 auto; border:1px solid rgba(45,70,53,0.5); padding:32px; }
+    .cafe-menu-strip-hdr { display:flex; align-items:center; gap:16px; margin-bottom:32px; }
+    .cafe-menu-strip-hdr .eyebrow-label { flex-shrink:0; }
+    .cafe-menu-strip-hdr .flex-1 { flex:1; height:1px; background:rgba(45,70,53,0.55); }
+    .cafe-menu-strip-hdr a { font-family:var(--font-sans); font-size:11px; letter-spacing:0.1em; color:rgba(242,244,243,0.38); text-decoration:none; transition:color 0.3s; }
+    .cafe-menu-strip-hdr a:hover { color:var(--gold); }
+    .cafe-menu-highlights { display:grid; grid-template-columns:repeat(6,1fr); gap:16px; }
+    .cafe-menu-item { text-align:center; cursor:default; }
+    .cafe-menu-item .tag { display:block; font-family:var(--font-sans); font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(197,160,89,0.55); margin-bottom:8px; }
+    .cafe-menu-item .name { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.68); line-height:1.4; transition:color 0.3s; }
+    .cafe-menu-item:hover .name { color:var(--cream); }
+    @media(max-width:1024px){.cafe-preview-grid{grid-template-columns:1fr}.cafe-panel{min-height:420px}.cafe-preview-section{padding:100px 20px}.cafe-menu-highlights{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:560px){.cafe-menu-highlights{grid-template-columns:repeat(2,1fr)}}
+
+    /* ─── SUSTAINABILITY ─── */
+    .sustain-section { padding:140px 48px; position:relative; overflow:hidden; }
+    .sustain-grid { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+    .sustain-left h2 { font-family:var(--font-serif); font-size:clamp(38px,5vw,60px); font-weight:300; color:var(--cream); line-height:1.05; margin-bottom:28px; }
+    .sustain-left h2 em { font-style:italic; color:var(--gold); }
+    .sustain-left p { font-family:var(--font-sans); font-size:16px; color:rgba(242,244,243,0.6); line-height:1.8; margin-bottom:40px; max-width:420px; }
+    .pillars-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .pillar { display:flex; align-items:flex-start; gap:14px; }
+    .pillar-icon { padding:10px; border:1px solid rgba(45,70,53,0.6); flex-shrink:0; transition:border-color 0.3s; }
+    .pillar:hover .pillar-icon { border-color:rgba(197,160,89,0.3); }
+    .pillar-icon svg { width:18px; height:18px; color:var(--gold); display:block; }
+    .pillar h4 { font-family:var(--font-sans); font-size:13px; color:var(--cream); margin-bottom:6px; }
+    .pillar p { font-family:var(--font-sans); font-size:12px; color:rgba(242,244,243,0.45); line-height:1.7; }
+    .sustain-imgs { display:flex; flex-direction:column; gap:12px; }
+    .sustain-imgs .img-wide { aspect-ratio:16/9; overflow:hidden; }
+    .sustain-imgs .img-med { aspect-ratio:4/3; overflow:hidden; }
+    .sustain-imgs img { width:100%; height:100%; object-fit:cover; transition:transform 1s ease; display:block; }
+    .sustain-imgs .img-wide:hover img,.sustain-imgs .img-med:hover img { transform:scale(1.05); }
+    @media(max-width:1024px){.sustain-grid{grid-template-columns:1fr}.sustain-section{padding:100px 20px}}
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonial-section { padding:144px 48px; border-top:1px solid rgba(45,70,53,0.4); border-bottom:1px solid rgba(45,70,53,0.4); background:var(--forest-card); text-align:center; position:relative; overflow:hidden; }
+    .testimonial-quote { font-family:var(--font-serif); font-size:72px; color:rgba(197,160,89,0.12); line-height:1; display:block; margin-bottom:16px; }
+    .testimonial-text { font-family:var(--font-serif); font-size:clamp(20px,3vw,32px); font-weight:300; color:var(--cream); line-height:1.6; font-style:italic; max-width:800px; margin:0 auto 32px; }
+    .testimonial-author { font-family:var(--font-sans); font-size:12px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:4px; }
+    .testimonial-role { font-family:var(--font-sans); font-size:11px; color:rgba(242,244,243,0.33); }
+    .test-nav { display:flex; align-items:center; justify-content:center; gap:32px; margin-top:48px; }
+    .test-btn { padding:10px; border:1px solid rgba(45,70,53,0.8); color:rgba(242,244,243,0.5); background:none; cursor:pointer; transition:all 0.3s; font-size:16px; }
+    .test-btn:hover { border-color:rgba(197,160,89,0.4); color:var(--gold); }
+    .test-dots { display:flex; gap:12px; align-items:center; }
+    .test-dot { border:none; background:rgba(242,244,243,0.18); border-radius:50%; width:6px; height:6px; cursor:pointer; transition:all 0.3s; }
+    .test-dot.active { background:var(--gold); width:24px; border-radius:4px; }
+    @media(max-width:768px){.testimonial-section{padding:100px 20px}}
+
+    /* ─── NEWSLETTER ─── */
+    .newsletter-section { padding:144px 48px; background:var(--forest-card); text-align:center; position:relative; overflow:hidden; }
+    .newsletter-section::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(to right,transparent,rgba(197,160,89,0.2),transparent); }
+    .newsletter-section h2 { font-family:var(--font-serif); font-size:clamp(36px,5vw,54px); font-weight:300; color:var(--cream); line-height:1.1; margin-bottom:20px; }
+    .newsletter-section h2 em { font-style:italic; color:var(--gold); }
+    .newsletter-section .sub-text { font-family:var(--font-sans); font-size:16px; color:rgba(242,244,243,0.55); line-height:1.8; max-width:520px; margin:0 auto 48px; }
+    .newsletter-form { display:flex; max-width:420px; margin:0 auto; gap:0; }
+    .newsletter-form input { flex:1; padding:16px 20px; background:transparent; border:1px solid rgba(45,70,53,0.7); border-right:none; color:var(--cream); font-family:var(--font-sans); font-size:13px; outline:none; transition:border-color 0.3s; }
+    .newsletter-form input:focus { border-color:rgba(197,160,89,0.5); }
+    .newsletter-form button { padding:16px 28px; background:var(--gold); color:var(--forest); font-family:var(--font-sans); font-size:10px; letter-spacing:0.25em; text-transform:uppercase; font-weight:600; border:none; cursor:pointer; white-space:nowrap; transition:background 0.3s; }
+    .newsletter-form button:hover { background:rgba(197,160,89,0.85); }
+    .nl-note { font-family:var(--font-sans); font-size:11px; color:rgba(242,244,243,0.22); margin-top:20px; }
+    .nl-success { display:none; font-family:var(--font-serif); font-size:18px; font-style:italic; color:var(--gold); }
+    @media(max-width:768px){.newsletter-section{padding:100px 20px}.newsletter-form{flex-direction:column}}
+
+    /* ─── FULL PRODUCTS PAGE ─── */
+    .products-page-hero { padding:160px 48px 80px; }
+    .products-page-hero h1 { font-family:var(--font-serif); font-size:clamp(48px,7vw,92px); font-weight:300; color:var(--cream); line-height:1.05; margin-bottom:16px; }
+    .products-page-hero h1 em { font-style:italic; color:var(--gold); }
+    .products-page-hero p { font-family:var(--font-sans); font-size:14px; color:rgba(242,244,243,0.5); line-height:1.9; max-width:560px; }
+    .products-page-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:28px; max-width:1280px; margin:0 auto; padding:0 48px 80px; }
+    .prod-card { background:var(--forest-card); border:1px solid rgba(45,70,53,0.6); overflow:hidden; transition:border-color 0.4s; }
+    .prod-card:hover { border-color:rgba(197,160,89,0.45); }
+    .prod-img-area { position:relative; height:480px; background:linear-gradient(180deg,var(--forest),var(--forest-card)); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+    .prod-img-glow { position:absolute; inset:0; background:radial-gradient(ellipse at center,rgba(197,160,89,0.1) 0%,transparent 70%); }
+    .prod-roast-badge { position:absolute; top:16px; left:16px; z-index:3; font-family:var(--font-sans); font-size:9px; letter-spacing:0.3em; text-transform:uppercase; padding:7px 14px; border:1px solid rgba(197,160,89,0.4); color:var(--gold); background:rgba(11,26,19,0.82); backdrop-filter:blur(8px); }
+    .prod-img-area img { position:relative; z-index:1; height:90%; width:auto; object-fit:contain; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.6)); transition:transform 0.65s ease; }
+    .prod-card:hover .prod-img-area img { transform:scale(1.07) translateY(-10px); }
+    .prod-img-fade { position:absolute; bottom:0; left:0; right:0; height:80px; background:linear-gradient(to top,var(--forest-card),transparent); z-index:2; }
+    .prod-body { padding:28px; }
+    .prod-subtitle { font-family:var(--font-sans); font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:rgba(197,160,89,0.6); margin-bottom:4px; }
+    .prod-name { font-family:var(--font-serif); font-size:30px; font-weight:300; color:var(--cream); margin-bottom:6px; }
+    .prod-meta { font-family:var(--font-sans); font-size:11px; color:rgba(197,160,89,0.7); margin-bottom:16px; }
+    .prod-desc { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.52); line-height:1.78; margin-bottom:20px; }
+    .prod-notes-label { font-family:var(--font-sans); font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+    .prod-notes-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+    .prod-note { font-family:var(--font-sans); font-size:11px; padding:5px 13px; border:1px solid rgba(45,70,53,0.7); color:rgba(242,244,243,0.58); }
+    .prod-certs { display:flex; flex-wrap:wrap; gap:8px; padding-top:16px; border-top:1px solid rgba(45,70,53,0.4); }
+    .cert { font-family:var(--font-sans); font-size:8px; letter-spacing:0.25em; text-transform:uppercase; color:rgba(197,160,89,0.5); padding:4px 9px; border:1px solid rgba(45,70,53,0.45); }
+    .prod-tagline { font-family:var(--font-serif); font-style:italic; font-size:13px; color:rgba(197,160,89,0.5); text-align:center; margin:14px 0 0; padding-bottom:20px; }
+    @media(max-width:1100px){.products-page-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:680px){.products-page-grid{grid-template-columns:1fr;padding:0 20px 60px}.products-page-hero{padding:140px 20px 60px}}
+
+    /* ─── CAFÉ PAGE ─── */
+    .cafe-page-hero { position:relative; height:70vh; min-height:500px; overflow:hidden; }
+    .cafe-page-hero-bg { position:absolute; inset:0; background-image:url('https://media.base44.com/images/public/69ebc2cc8599861a01a644de/1e05ac380_generated_image.png'); background-size:cover; background-position:center; }
+    .cafe-page-hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(11,26,19,0.55) 0%,rgba(11,26,19,0.2) 40%,rgba(11,26,19,1) 100%); }
+    .cafe-page-hero-content { position:absolute; bottom:0; left:0; right:0; padding:0 48px 60px; max-width:1280px; margin:0 auto; }
+    .cafe-page-hero-content h1 { font-family:var(--font-serif); font-size:clamp(52px,8vw,96px); font-weight:300; color:var(--cream); line-height:1; margin-bottom:24px; }
+    .cafe-page-hero-content h1 em { font-style:italic; color:var(--gold); }
+    .info-strip { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(45,70,53,0.4); border-bottom:1px solid rgba(45,70,53,0.4); }
+    .info-cell { background:var(--forest); padding:24px 28px; }
+    .info-cell .eyebrow-label { display:block; margin-bottom:8px; }
+    .info-cell p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.65); line-height:1.6; }
+    @media(max-width:800px){.info-strip{grid-template-columns:1fr 1fr}.cafe-page-hero-content{padding:0 24px 48px}}
+    @media(max-width:480px){.info-strip{grid-template-columns:1fr}}
+    .menu-tabs-bar { display:flex; border-bottom:1px solid rgba(45,70,53,0.5); max-width:1280px; margin:0 auto; padding:64px 48px 0; overflow-x:auto; }
+    .menu-tab-btn { font-family:var(--font-sans); font-size:11px; letter-spacing:0.25em; text-transform:uppercase; padding:16px 28px; border:none; border-bottom:2px solid transparent; color:rgba(242,244,243,0.4); cursor:pointer; transition:all 0.3s; white-space:nowrap; background:none; margin-bottom:-1px; }
+    .menu-tab-btn:hover { color:rgba(242,244,243,0.75); }
+    .menu-tab-btn.active { color:var(--gold); border-bottom-color:var(--gold); }
+    .menu-sec-hdr { max-width:1280px; margin:0 auto; padding:40px 48px 24px; }
+    .menu-sec-hdr .sub { font-family:var(--font-sans); font-size:9px; letter-spacing:0.5em; text-transform:uppercase; color:var(--gold); margin-bottom:6px; display:block; }
+    .menu-sec-hdr h2 { font-family:var(--font-serif); font-size:42px; font-weight:300; color:var(--cream); }
+    .menu-cards-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(45,70,53,0.2); max-width:1280px; margin:0 auto; padding:0 48px 4px; }
+    .menu-card { background:var(--forest-card); overflow:hidden; transition:background 0.3s; }
+    .menu-card:hover { background:var(--forest-mid,#0F2419); }
+    .menu-card-img { width:100%; height:180px; object-fit:cover; display:block; }
+    .menu-card-body { padding:20px; }
+    .menu-card-name { font-family:var(--font-serif); font-size:20px; color:var(--cream); margin-bottom:6px; transition:color 0.3s; }
+    .menu-card:hover .menu-card-name { color:var(--gold); }
+    .menu-card-desc { font-family:var(--font-sans); font-size:12px; color:rgba(242,244,243,0.42); line-height:1.65; }
+    @media(max-width:1100px){.menu-cards-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.menu-cards-grid{grid-template-columns:1fr;padding:0 0 4px}.menu-tabs-bar{padding:48px 16px 0}.menu-sec-hdr{padding:32px 16px 16px}}
+    .cafe-logo-bar { max-width:1280px; margin:0 auto; padding:80px 48px; display:flex; align-items:center; gap:48px; border-top:1px solid rgba(45,70,53,0.4); flex-wrap:wrap; }
+    .cafe-logo-bar img { width:120px; height:120px; object-fit:contain; opacity:0.9; }
+    .cafe-logo-bar h3 { font-family:var(--font-serif); font-size:clamp(24px,4vw,38px); color:var(--cream); font-style:italic; margin-bottom:12px; }
+    .cafe-logo-bar p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.45); line-height:1.8; max-width:420px; }
+    .cafe-img-strip { max-width:1280px; margin:0 auto; padding:0 48px 96px; display:grid; grid-template-columns:repeat(3,1fr); gap:4px; }
+    .cafe-img-strip div { aspect-ratio:4/3; overflow:hidden; }
+    .cafe-img-strip img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s ease; display:block; }
+    .cafe-img-strip div:hover img { transform:scale(1.05); }
+    .map-section { max-width:1280px; margin:0 auto; padding:0 48px 80px; }
+    .map-section iframe { width:100%; height:420px; border:0; filter:invert(88%) hue-rotate(140deg) brightness(0.75) contrast(1.1); display:block; }
+    .map-footer { margin-top:12px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    .map-footer p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.4); }
+    .map-footer a { font-family:var(--font-sans); font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); text-decoration:none; transition:color 0.3s; }
+    .map-footer a:hover { color:var(--cream); }
+    .reserve-section { max-width:800px; margin:0 auto; padding:0 40px 100px; text-align:center; }
+    .reserve-section h2 { font-family:var(--font-serif); font-size:clamp(36px,5vw,54px); font-weight:300; color:var(--cream); margin-bottom:16px; }
+    .reserve-section h2 em { font-style:italic; color:var(--gold); }
+    .reserve-section>p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.5); margin-bottom:40px; line-height:1.7; }
+    .reserve-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+    @media(max-width:600px){.reserve-grid{grid-template-columns:1fr}.reserve-section{padding:0 20px 80px}.map-section{padding:0 20px 60px}.cafe-img-strip{grid-template-columns:1fr;padding:0 20px 60px}.cafe-logo-bar{padding:60px 20px}}
+
+    /* ─── STORY PAGE ─── */
+    .story-hero { padding:180px 48px 100px; max-width:1280px; margin:0 auto; }
+    .story-hero h1 { font-family:var(--font-serif); font-size:clamp(48px,7vw,88px); font-weight:300; color:var(--cream); line-height:1.06; margin-bottom:16px; }
+    .story-hero h1 em { font-style:italic; color:var(--gold); }
+    .story-hero p { font-family:var(--font-sans); font-size:14px; color:rgba(242,244,243,0.5); line-height:1.9; max-width:580px; }
+    .story-full-img { max-width:1280px; margin:0 auto; padding:0 48px 80px; }
+    .story-full-img img { width:100%; height:480px; object-fit:cover; display:block; }
+    .timeline { max-width:1280px; margin:0 auto; padding:0 48px 80px; }
+    .tl-item { display:grid; grid-template-columns:110px 1px 1fr; gap:32px; margin-bottom:56px; }
+    .tl-year { font-family:var(--font-serif); font-size:38px; font-weight:300; color:var(--gold); text-align:right; padding-top:2px; }
+    .tl-line { background:rgba(45,70,53,0.6); position:relative; }
+    .tl-line::before { content:''; position:absolute; top:8px; left:-4px; width:9px; height:9px; border-radius:50%; background:var(--gold); }
+    .tl-body h3 { font-family:var(--font-serif); font-size:24px; color:var(--cream); margin-bottom:8px; }
+    .tl-body p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.5); line-height:1.82; }
+    .values-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(45,70,53,0.3); max-width:1280px; margin:0 auto; padding:0 48px 100px; }
+    .value-card { background:var(--forest); padding:40px 32px; }
+    .value-card h4 { font-family:var(--font-serif); font-size:22px; color:var(--cream); margin-bottom:12px; }
+    .value-card p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.5); line-height:1.8; }
+    @media(max-width:768px){.story-hero{padding:140px 20px 72px}.story-full-img{padding:0 20px 60px}.timeline{padding:0 20px 60px}.tl-item{grid-template-columns:68px 1px 1fr;gap:16px}.tl-year{font-size:24px}.values-grid{grid-template-columns:1fr 1fr;padding:0 20px 60px}}
+    @media(max-width:480px){.values-grid{grid-template-columns:1fr}}
+
+    /* ─── CONTACT PAGE ─── */
+    .contact-grid { max-width:1280px; margin:0 auto; padding:0 48px 100px; display:grid; grid-template-columns:1fr 1fr; gap:80px; }
+    .contact-info h2 { font-family:var(--font-serif); font-size:clamp(36px,5vw,52px); font-weight:300; color:var(--cream); margin-bottom:20px; }
+    .contact-info h2 em { font-style:italic; color:var(--gold); }
+    .contact-info>p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.5); line-height:1.9; margin-bottom:36px; }
+    .contact-detail { display:flex; align-items:flex-start; gap:14px; margin-bottom:20px; }
+    .contact-icon { color:var(--gold); flex-shrink:0; font-size:18px; }
+    .contact-detail span { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.6); line-height:1.6; }
+    .contact-form-wrap { display:flex; flex-direction:column; gap:14px; }
+    @media(max-width:800px){.contact-grid{grid-template-columns:1fr;gap:48px;padding:0 20px 80px}}
+
+    /* ─── FORM ELEMENTS ─── */
+    .fi { background:rgba(45,70,53,0.2); border:1px solid rgba(45,70,53,0.6); color:var(--cream); font-family:var(--font-sans); font-size:13px; padding:14px 16px; width:100%; outline:none; transition:border-color 0.3s; }
+    .fi:focus { border-color:rgba(197,160,89,0.5); }
+    .fi option { background:var(--forest-card); }
+    .fta { background:rgba(45,70,53,0.2); border:1px solid rgba(45,70,53,0.6); color:var(--cream); font-family:var(--font-sans); font-size:13px; padding:14px 16px; width:100%; outline:none; resize:vertical; min-height:90px; transition:border-color 0.3s; }
+    .fta:focus { border-color:rgba(197,160,89,0.5); }
+    .success-bar { display:none; margin-top:16px; background:rgba(45,70,53,0.25); border:1px solid rgba(45,70,53,0.7); padding:16px 20px; font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.8); }
+
+    /* ─── FOOTER ─── */
+    footer { background:var(--forest-dark); border-top:1px solid rgba(45,70,53,0.4); position:relative; overflow:hidden; }
+    .footer-wave { position:absolute; inset:0; opacity:0.04; pointer-events:none; background-image:url("data:image/svg+xml,%3Csvg width='100' height='40' viewBox='0 0 100 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20 Q25 5 50 20 Q75 35 100 20' fill='none' stroke='%23C5A059' stroke-width='0.5'/%3E%3Cpath d='M0 10 Q25 -5 50 10 Q75 25 100 10' fill='none' stroke='%23C5A059' stroke-width='0.5'/%3E%3Cpath d='M0 30 Q25 15 50 30 Q75 45 100 30' fill='none' stroke='%23C5A059' stroke-width='0.5'/%3E%3C/svg%3E"); background-size:200px 80px; }
+    .footer-inner { position:relative; max-width:1280px; margin:0 auto; padding:96px 48px 36px; }
+    .footer-top { display:grid; grid-template-columns:4fr 2fr 2fr 2fr 3fr; gap:48px; margin-bottom:72px; }
+    .footer-brand-name { font-family:var(--font-serif); font-size:24px; font-weight:300; letter-spacing:0.3em; color:var(--gold); display:block; margin-bottom:12px; }
+    .footer-brand p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.4); line-height:1.85; max-width:240px; }
+    .footer-socials { display:flex; gap:10px; margin-top:24px; }
+    .footer-social-btn { width:36px; height:36px; border:1px solid rgba(45,70,53,0.7); display:flex; align-items:center; justify-content:center; color:rgba(242,244,243,0.45); font-size:14px; text-decoration:none; transition:all 0.3s; }
+    .footer-social-btn:hover { border-color:rgba(197,160,89,0.4); color:var(--gold); }
+    .footer-col h4 { font-family:var(--font-sans); font-size:9px; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+    .footer-col a { display:block; font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.42); text-decoration:none; margin-bottom:12px; transition:color 0.3s; cursor:pointer; }
+    .footer-col a:hover { color:rgba(242,244,243,0.88); }
+    .footer-contact-item { display:flex; align-items:flex-start; gap:10px; margin-bottom:14px; }
+    .footer-contact-item .fc-icon { color:var(--gold); font-size:13px; flex-shrink:0; margin-top:1px; }
+    .footer-contact-item p { font-family:var(--font-sans); font-size:13px; color:rgba(242,244,243,0.42); line-height:1.6; }
+    .footer-divider { height:1px; background:linear-gradient(to right,transparent,rgba(45,70,53,0.6),transparent); margin-bottom:28px; }
+    .footer-bottom { display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .footer-bottom p { font-family:var(--font-sans); font-size:11px; color:rgba(242,244,243,0.2); letter-spacing:0.2em; text-transform:uppercase; }
+    .footer-sub { display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; }
+    .footer-sub span { font-family:var(--font-sans); font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(197,160,89,0.32); }
+    .footer-sub a { font-family:var(--font-sans); font-size:9px; letter-spacing:0.3em; text-transform:uppercase; color:rgba(197,160,89,0.32); text-decoration:none; transition:color 0.3s; }
+    .footer-sub a:hover { color:var(--gold); }
+    @media(max-width:1100px){.footer-top{grid-template-columns:1fr 1fr 1fr}}
+    @media(max-width:700px){.footer-top{grid-template-columns:1fr 1fr}.footer-inner{padding:60px 20px 24px}}
+    @media(max-width:440px){.footer-top{grid-template-columns:1fr}}
+
+    /* ─── WATERMARK ─── */
+    .watermark {
+      position:fixed; bottom:12px; left:50%; transform:translateX(-50%);
+      z-index:500; background:rgba(11,26,19,0.85); backdrop-filter:blur(10px);
+      border:1px solid rgba(197,160,89,0.25); padding:7px 18px;
+      font-family:var(--font-sans); font-size:10px; letter-spacing:0.15em;
+      color:rgba(197,160,89,0.7); text-decoration:none;
+      transition:all 0.3s; white-space:nowrap;
+    }
+    .watermark:hover { border-color:var(--gold); color:var(--gold); background:rgba(11,26,19,0.95); }
+
+    /* ─── WHATSAPP FLOAT ─── */
+    .wa-float { position:fixed; bottom:56px; right:24px; z-index:499; display:flex; align-items:center; gap:10px; background:#25D366; color:#fff; font-family:var(--font-sans); font-size:12px; font-weight:600; letter-spacing:0.05em; padding:12px 20px 12px 14px; border-radius:50px; text-decoration:none; box-shadow:0 4px 20px rgba(37,211,102,0.4); transition:all 0.3s; }
+    .wa-float:hover { background:#1ebe5d; box-shadow:0 6px 28px rgba(37,211,102,0.55); transform:translateY(-2px); }
+    .wa-float svg { width:22px; height:22px; flex-shrink:0; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ LOADER ══════════ -->
+<div id="loader">
+  <p class="loader-label">Coorg Coffee Roastery</p>
+  <div class="loader-anim">
+    <!-- Coffee bean SVG -->
+    <svg class="loader-bean" viewBox="0 0 52 68" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="26" cy="34" rx="22" ry="30" fill="#C5A059" fill-opacity="0.18" stroke="#C5A059" stroke-width="1.5" stroke-opacity="0.7"/>
+      <path d="M26 6 Q26 34 26 62" stroke="#C5A059" stroke-width="1.2" stroke-opacity="0.8" stroke-linecap="round"/>
+      <path d="M14 20 Q20 17 26 14" stroke="#C5A059" stroke-width="0.8" stroke-opacity="0.5" stroke-linecap="round"/>
+      <path d="M38 20 Q32 17 26 14" stroke="#C5A059" stroke-width="0.8" stroke-opacity="0.5" stroke-linecap="round"/>
+    </svg>
+    <!-- Cup SVG (appears after) -->
+    <svg class="loader-cup" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="8" y="24" width="36" height="26" rx="2" fill="#C5A059" fill-opacity="0.2" stroke="#C5A059" stroke-width="1.5" stroke-opacity="0.7"/>
+      <path d="M44 30 Q54 30 54 38 Q54 46 44 46" stroke="#C5A059" stroke-width="1.5" stroke-opacity="0.6" fill="none" stroke-linecap="round"/>
+      <rect x="4" y="50" width="44" height="4" rx="1" fill="#C5A059" fill-opacity="0.3"/>
+      <!-- steam lines -->
+      <path d="M20 20 Q22 14 20 8" stroke="#C5A059" stroke-width="1.2" stroke-opacity="0.5" fill="none" stroke-linecap="round"/>
+      <path d="M28 18 Q30 11 28 5" stroke="#C5A059" stroke-width="1.2" stroke-opacity="0.5" fill="none" stroke-linecap="round"/>
+      <path d="M36 20 Q38 14 36 8" stroke="#C5A059" stroke-width="1.2" stroke-opacity="0.5" fill="none" stroke-linecap="round"/>
+      <!-- latte art heart -->
+      <path d="M22 35 Q22 32 25 32 Q28 32 28 35 Q28 38 24 41 Q20 38 20 35 Q20 32 22 32" fill="#C5A059" fill-opacity="0.4"/>
+    </svg>
+  </div>
+  <p class="loader-title serif">COORG</p>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  <p class="loader-label" style="opacity:0.4">The Essence of Coorg in a Cup</p>
+</div>
+
+<!-- ══════════ WATERMARK ══════════ -->
+<a class="watermark" href="https://www.syedfaiz.vercel.app" target="_blank" rel="noopener noreferrer">
+  ✦ Developed by SYED FAIZ HUSSAIN
+</a>
+
+<!-- ══════════ WHATSAPP FLOAT ══════════ -->
+<a class="wa-float" href="https://wa.me/96893245242" target="_blank" rel="noopener noreferrer">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L0 24l6.335-1.509A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.369l-.36-.214-3.73.888.929-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+  WhatsApp Us
+</a>
+
+<!-- ══════════ NAVBAR ══════════ -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <span class="nav-brand" onclick="nav('home')">COORG</span>
+    <div class="nav-links">
+      <a id="nl-story" onclick="nav('story')">Our Story</a>
+      <a id="nl-cafe" onclick="nav('cafe')">The Café</a>
+      <a id="nl-products" onclick="nav('products')">Products</a>
+      <a id="nl-contact" onclick="nav('contact')">Contact</a>
+      <a class="nav-cta" onclick="nav('cafe')">Reserve</a>
+    </div>
+    <button class="hamburger" onclick="toggleMob()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a onclick="nav('story');toggleMob()">Our Story</a>
+  <a onclick="nav('cafe');toggleMob()">The Café</a>
+  <a onclick="nav('products');toggleMob()">Products</a>
+  <a onclick="nav('contact');toggleMob()">Contact</a>
+  <p class="mob-foot">Coorg Coffee Roastery · The Gate Mall, Muscat, Oman</p>
+</div>
+
+<!-- ══════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-overlay2"></div>
+    <!-- Botanical left -->
+    <svg style="position:absolute;left:-32px;top:25%;opacity:0.15;pointer-events:none;display:none;" class="botanical" width="112" height="224" viewBox="0 0 120 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M60 195 Q55 150 50 120 Q45 90 55 60 Q62 35 70 10" stroke="#C5A059" stroke-width="1.2" stroke-opacity="0.4" stroke-linecap="round" fill="none"/>
+      <path d="M52 110 Q30 100 15 90" stroke="#C5A059" stroke-width="0.8" stroke-opacity="0.35" stroke-linecap="round" fill="none"/>
+      <path d="M56 80 Q80 65 95 55" stroke="#C5A059" stroke-width="0.8" stroke-opacity="0.35" stroke-linecap="round" fill="none"/>
+      <ellipse cx="28" cy="95" rx="8" ry="13" transform="rotate(-30 28 95)" fill="#C5A059" fill-opacity="0.12" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/>
+      <ellipse cx="85" cy="60" rx="8" ry="13" transform="rotate(25 85 60)" fill="#C5A059" fill-opacity="0.12" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/>
+      <circle cx="10" cy="86" r="7" fill="#C5A059" fill-opacity="0.18" stroke="#C5A059" stroke-width="0.7" stroke-opacity="0.4"/>
+      <circle cx="20" cy="82" r="7" fill="#C5A059" fill-opacity="0.18" stroke="#C5A059" stroke-width="0.7" stroke-opacity="0.4"/>
+      <circle cx="100" cy="50" r="7" fill="#C5A059" fill-opacity="0.18" stroke="#C5A059" stroke-width="0.7" stroke-opacity="0.4"/>
+      <circle cx="68" cy="18" r="6" fill="#C5A059" fill-opacity="0.18" stroke="#C5A059" stroke-width="0.7" stroke-opacity="0.4"/>
+    </svg>
+    <!-- Scattered beans top-right -->
+    <svg style="position:absolute;right:64px;top:80px;opacity:0.12;pointer-events:none;" width="128" height="96" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g transform="translate(10,20) rotate(30)"><ellipse cx="0" cy="0" rx="5" ry="8" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/><path d="M0 -6 Q0 0 0 6" stroke="#C5A059" stroke-width="0.5" stroke-opacity="0.3" stroke-linecap="round"/></g>
+      <g transform="translate(45,10) rotate(-15)"><ellipse cx="0" cy="0" rx="4" ry="6" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/><path d="M0 -5 Q0 0 0 5" stroke="#C5A059" stroke-width="0.5" stroke-opacity="0.3" stroke-linecap="round"/></g>
+      <g transform="translate(75,30) rotate(60)"><ellipse cx="0" cy="0" rx="5" ry="9" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/><path d="M0 -7 Q0 0 0 7" stroke="#C5A059" stroke-width="0.5" stroke-opacity="0.3" stroke-linecap="round"/></g>
+      <g transform="translate(20,55) rotate(-40)"><ellipse cx="0" cy="0" rx="4" ry="7" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/><path d="M0 -5.5 Q0 0 0 5.5" stroke="#C5A059" stroke-width="0.5" stroke-opacity="0.3" stroke-linecap="round"/></g>
+      <g transform="translate(60,65) rotate(20)"><ellipse cx="0" cy="0" rx="5" ry="8" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/><path d="M0 -6 Q0 0 0 6" stroke="#C5A059" stroke-width="0.5" stroke-opacity="0.3" stroke-linecap="round"/></g>
+    </svg>
+    <div class="hero-content">
+      <div class="eyebrow" style="margin-bottom:24px;">
+        <div class="hline" style="width:48px;"></div>
+        <span class="eyebrow-label">Coorg Coffee Roastery · The Gate Mall, Muscat, Oman</span>
+      </div>
+      <h1>From Mist<br/><em>to Cup</em></h1>
+      <p class="hero-sub">Shade-grown in the ancient coffee forests of Coorg. Every sip carries the terroir of the Western Ghats.</p>
+      <div class="hero-ctas">
+        <button class="btn-gold" onclick="nav('cafe')">See Our Menu →</button>
+        <button class="btn-outline-gold" onclick="nav('story')">Our Story</button>
+        <a class="btn-wa" href="https://wa.me/96893245242" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L0 24l6.335-1.509A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.369l-.36-.214-3.73.888.929-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+          WhatsApp
+        </a>
+      </div>
+    </div>
+    <div class="scroll-ind">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat"><span class="stat-val serif">1,100m</span><span class="stat-lbl">Growing Altitude</span></div>
+      <div class="stat"><span class="stat-val serif">3rd</span><span class="stat-lbl">Generation Estate</span></div>
+      <div class="stat"><span class="stat-val serif">100%</span><span class="stat-lbl">Shade-Grown</span></div>
+      <div class="stat"><span class="stat-val serif">1897</span><span class="stat-lbl">Estate Founded</span></div>
+      <div class="stat"><span class="stat-val serif">200ac</span><span class="stat-lbl">Estate Size</span></div>
+      <div class="stat"><span class="stat-val serif">100%</span><span class="stat-lbl">Hand-Picked</span></div>
+    </div>
+  </section>
+
+  <!-- ORIGIN -->
+  <section class="origin-section">
+    <!-- Branch decoration -->
+    <svg style="position:absolute;left:-32px;top:80px;opacity:0.15;pointer-events:none;" width="112" height="224" viewBox="0 0 120 200" fill="none"><path d="M60 195 Q55 150 50 120 Q45 90 55 60 Q62 35 70 10" stroke="#C5A059" stroke-width="1.2" stroke-opacity="0.4" fill="none" stroke-linecap="round"/><circle cx="10" cy="86" r="7" fill="#C5A059" fill-opacity="0.18"/><circle cx="20" cy="82" r="7" fill="#C5A059" fill-opacity="0.18"/></svg>
+    <div class="section-wrap" style="margin-bottom:80px;"><div class="eyebrow"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">The Origin</span></div></div>
+    <div class="origin-grid">
+      <div class="origin-text">
+        <h2>Where the<br/><em>clouds meet</em><br/>the soil</h2>
+        <p>Nestled at 1,100 meters in the Western Ghats, our estate sits in Kodagu — India's undisputed coffee capital. Arabica and robusta grow beneath a canopy of silver oaks and rosewood, nurtured by monsoon rains and ancient volcanic soil.</p>
+        <p>Three generations of cultivation have refined our approach: shade-grown, hand-picked at peak ripeness, and sun-dried on raised beds — preserving every note of terroir in your cup.</p>
+        <a onclick="nav('story')">Read our full story →</a>
+      </div>
+      <div class="origin-imgs">
+        <div class="img-tall"><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/6f88b5238_generated_image.png" alt="Ripe coffee cherries" loading="lazy"/></div>
+        <div>
+          <div class="img-sq"><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/f25ee21c0_generated_image.png" alt="Aerial farm view" loading="lazy"/></div>
+          <div class="img-rect" style="margin-top:12px;"><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/306617dcc_generated_image.png" alt="Farm hands" loading="lazy"/></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="feat-prod-section">
+    <div class="hairline" style="position:absolute;top:0;left:64px;right:64px;"></div>
+    <div class="feat-prod-hdr">
+      <div>
+        <div class="eyebrow" style="margin-bottom:20px;"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">The Collection</span></div>
+        <h2>Bean <em>Boutique</em></h2>
+        <p>Each bag is a portrait of its plot — processed with obsessive care to deliver the soul of Kodagu.</p>
+      </div>
+      <a onclick="nav('cafe')">Visit Our Café →</a>
+    </div>
+    <div class="feat-prod-grid">
+      <div class="feat-card">
+        <div class="feat-card-img">
+          <img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/1646129e6_generated_image.png" alt="Farm Reserve Arabica" loading="lazy"/>
+          <div class="feat-roast-badge">Medium Roast</div>
+          <div class="feat-hover-overlay">
+            <span class="tasting-label">Tasting Notes</span>
+            <div class="feat-note-row">
+              <span class="feat-note-chip">Dark Chocolate</span>
+              <span class="feat-note-chip">Toasted Almond</span>
+              <span class="feat-note-chip">Wild Honey</span>
+            </div>
+            <span style="font-family:var(--font-sans);font-size:11px;color:rgba(242,244,243,0.45);margin-top:8px;">Our farm-grown beans</span>
+          </div>
+        </div>
+        <h3 class="feat-card-name">Farm Reserve Arabica</h3>
+        <p class="feat-card-desc">Single-origin arabica from our Coorg farm, shade-grown at altitude</p>
+        <p class="feat-card-weight">250g · Whole Bean</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-card-img">
+          <img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/6e5a0ce96_generated_image.png" alt="Monsoon Malabar Robusta" loading="lazy"/>
+          <div class="feat-roast-badge">Dark Roast</div>
+          <div class="feat-hover-overlay">
+            <span class="tasting-label">Tasting Notes</span>
+            <div class="feat-note-row">
+              <span class="feat-note-chip">Spice</span>
+              <span class="feat-note-chip">Dark Cocoa</span>
+              <span class="feat-note-chip">Tobacco</span>
+            </div>
+            <span style="font-family:var(--font-sans);font-size:11px;color:rgba(242,244,243,0.45);margin-top:8px;">Our farm-grown beans</span>
+          </div>
+        </div>
+        <h3 class="feat-card-name">Monsoon Malabar Robusta</h3>
+        <p class="feat-card-desc">Wind-dried robusta with bold, earthy depth from Coorg</p>
+        <p class="feat-card-weight">250g · Whole Bean</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-card-img">
+          <img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/0ecaea482_generated_image.png" alt="Morning Mist Blend" loading="lazy"/>
+          <div class="feat-roast-badge">Light Roast</div>
+          <div class="feat-hover-overlay">
+            <span class="tasting-label">Tasting Notes</span>
+            <div class="feat-note-row">
+              <span class="feat-note-chip">Citrus</span>
+              <span class="feat-note-chip">Jasmine</span>
+              <span class="feat-note-chip">Brown Sugar</span>
+            </div>
+            <span style="font-family:var(--font-sans);font-size:11px;color:rgba(242,244,243,0.45);margin-top:8px;">Our farm-grown beans</span>
+          </div>
+        </div>
+        <h3 class="feat-card-name">Morning Mist Blend</h3>
+        <p class="feat-card-desc">Light roast blend perfect for pour-over and filter brewing</p>
+        <p class="feat-card-weight">250g · Ground</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process-section">
+    <div class="process-hdr">
+      <div>
+        <div class="eyebrow" style="margin-bottom:20px;"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">From Tree to Cup</span></div>
+        <h2>Crafted at<br/><em>every step</em></h2>
+      </div>
+      <p>Great coffee is not an accident. Every stage of our process is deliberate, unhurried, and guided by a single obsession: to deliver the purest expression of Coorg's landscape.</p>
+    </div>
+    <div class="process-steps">
+      <div class="process-step"><div class="process-step-num">01</div><h3>Shade-Grown</h3><p>Our arabica grows under a canopy of silver oaks and jackfruit trees, slowing cherry maturation and concentrating sugars and complex flavour compounds.</p></div>
+      <div class="process-step"><div class="process-step-num">02</div><h3>Hand-Picked</h3><p>Cherries are selectively hand-picked at peak ripeness — only the deep crimson ones. Our team moves through the estate three times per season for maximum quality.</p></div>
+      <div class="process-step"><div class="process-step-num">03</div><h3>Natural Process</h3><p>We use a traditional sun-drying method on raised African beds. Cherries are turned every few hours to ensure even drying over 25–30 days.</p></div>
+      <div class="process-step"><div class="process-step-num">04</div><h3>Micro-Roasted</h3><p>Our small-batch roastery transforms green beans into their final character. Each origin is roasted to a unique profile that honours the terroir.</p></div>
+    </div>
+    <div class="process-img-wrap">
+      <img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/54c0026fe_generated_image.png" alt="Coffee sun-drying beds" loading="lazy"/>
+      <div class="process-img-overlay"></div>
+      <div class="process-img-text">
+        <span class="eyebrow-label">Our Process</span>
+        <p>"25–30 days of sun-drying. Not a minute rushed."</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAFÉ PREVIEW -->
+  <section class="cafe-preview-section">
+    <svg style="position:absolute;right:0;bottom:128px;opacity:0.1;pointer-events:none;" width="80" height="160" viewBox="0 0 60 120" fill="none"><path d="M30 110 Q5 70 10 30 Q15 5 30 8 Q45 5 50 30 Q55 70 30 110Z" fill="#C5A059" fill-opacity="0.1" stroke="#C5A059" stroke-width="0.8" stroke-opacity="0.3"/><path d="M30 105 Q30 60 30 12" stroke="#C5A059" stroke-width="0.7" stroke-opacity="0.35" stroke-linecap="round"/></svg>
+    <div class="section-wrap" style="margin-bottom:80px;"><div class="eyebrow"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">The Living Room</span></div></div>
+    <div class="cafe-preview-grid">
+      <div class="cafe-panel">
+        <img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/1e05ac380_generated_image.png" alt="Coorg Coffee café interior" loading="lazy"/>
+        <div class="cafe-panel-overlay"></div>
+        <div class="cafe-panel-content">
+          <h2>Our <em>Café</em></h2>
+          <p>A sanctuary where the craft of coffee meets architectural calm. The Gate Mall, Muscat, Oman.</p>
+        </div>
+      </div>
+      <div class="cafe-panel">
+        <img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/449a6e409_generated_image.png" alt="Pour-over coffee" loading="lazy"/>
+        <div class="cafe-panel-overlay"></div>
+        <div class="cafe-panel-content">
+          <span class="cafe-hours-label">Hours</span>
+          <p class="cafe-hours-text">Mon – Sat · 7:00 AM – 9:00 PM<br/>Sunday · 8:00 AM – 8:00 PM</p>
+          <button class="btn-gold" onclick="nav('cafe')">Reserve a Table →</button>
+        </div>
+      </div>
+    </div>
+    <div class="cafe-menu-strip">
+      <div class="cafe-menu-strip-hdr">
+        <span class="eyebrow-label">Signature Menu</span>
+        <div class="flex-1"></div>
+        <a onclick="nav('cafe')">Full menu →</a>
+      </div>
+      <div class="cafe-menu-highlights">
+        <div class="cafe-menu-item"><span class="tag">Espresso</span><span class="name">Single Origin Espresso</span></div>
+        <div class="cafe-menu-item"><span class="tag">Brewed</span><span class="name">Estate Pour-Over (V60)</span></div>
+        <div class="cafe-menu-item"><span class="tag">Cold</span><span class="name">Cold Brew Concentrate</span></div>
+        <div class="cafe-menu-item"><span class="tag">Espresso</span><span class="name">Cortado</span></div>
+        <div class="cafe-menu-item"><span class="tag">Brewed</span><span class="name">Chemex for Two</span></div>
+        <div class="cafe-menu-item"><span class="tag">Brewed</span><span class="name">AeroPress</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUSTAINABILITY -->
+  <section class="sustain-section">
+    <svg style="position:absolute;right:-40px;top:96px;opacity:0.12;pointer-events:none;transform:scaleX(-1);" width="112" height="224" viewBox="0 0 120 200" fill="none"><path d="M60 195 Q55 150 50 120 Q45 90 55 60 Q62 35 70 10" stroke="#C5A059" stroke-width="1.2" stroke-opacity="0.4" fill="none" stroke-linecap="round"/><circle cx="10" cy="86" r="7" fill="#C5A059" fill-opacity="0.18"/><circle cx="20" cy="82" r="7" fill="#C5A059" fill-opacity="0.18"/></svg>
+    <div class="section-wrap" style="margin-bottom:80px;"><div class="eyebrow"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">Our Responsibility</span></div></div>
+    <div class="sustain-grid">
+      <div class="sustain-left">
+        <h2>Grown with<br/><em>the land,</em><br/>not from it</h2>
+        <p>Our estate is a living ecosystem. The same canopy that gives our beans their extraordinary complexity also shelters 140+ species of birds, filters the watershed, and cools the microclimate for miles around.</p>
+        <div class="pillars-grid">
+          <div class="pillar"><div class="pillar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></div><div><h4>Shade-Grown Canopy</h4><p>Every tree grows under a protective canopy that sequesters carbon and supports native bird species.</p></div></div>
+          <div class="pillar"><div class="pillar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div><div><h4>Water Stewardship</h4><p>Natural processing methods use up to 90% less water than washed processing.</p></div></div>
+          <div class="pillar"><div class="pillar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg></div><div><h4>Solar-Powered Roastery</h4><p>Our on-estate roastery runs on solar energy, reducing our carbon footprint to near zero.</p></div></div>
+          <div class="pillar"><div class="pillar-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 10 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg></div><div><h4>Zero-Waste Pulping</h4><p>Coffee pulp and husks are composted back into the estate, creating a closed-loop nutrient cycle.</p></div></div>
+        </div>
+      </div>
+      <div class="sustain-imgs">
+        <div class="img-wide"><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/f25ee21c0_generated_image.png" alt="Aerial view of estate" loading="lazy"/></div>
+        <div class="img-med"><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/6f88b5238_generated_image.png" alt="Coffee cherries" loading="lazy"/></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonial-section">
+    <svg style="position:absolute;left:48px;top:50%;transform:translateY(-50%);opacity:0.07;pointer-events:none;" width="128" height="128" viewBox="0 0 80 80" fill="none"><ellipse cx="40" cy="40" rx="14" ry="22" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/></svg>
+    <svg style="position:absolute;right:48px;top:50%;transform:translateY(-50%);opacity:0.07;pointer-events:none;" width="96" height="96" viewBox="0 0 80 80" fill="none"><ellipse cx="40" cy="40" rx="14" ry="22" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/></svg>
+    <div style="max-width:800px;margin:0 auto;text-align:center;">
+      <div class="eyebrow" style="justify-content:center;margin-bottom:48px;"><div class="hline" style="width:48px;opacity:0.4;"></div><span class="eyebrow-label">What People Say</span><div class="hline" style="width:48px;opacity:0.4;"></div></div>
+      <span class="testimonial-quote serif">"</span>
+      <blockquote class="testimonial-text" id="testText">The finest expression of Indian terroir I've encountered. Coorg Coffee tastes like the landscape it comes from — wild, layered, and unforgettable.</blockquote>
+      <p class="testimonial-author" id="testAuthor">The Indian Coffee Journal</p>
+      <p class="testimonial-role" id="testRole">Review, 2024</p>
+      <div class="test-nav">
+        <button class="test-btn" onclick="testPrev()">&#8249;</button>
+        <div class="test-dots">
+          <button class="test-dot active" id="td0" onclick="testGo(0)"></button>
+          <button class="test-dot" id="td1" onclick="testGo(1)"></button>
+          <button class="test-dot" id="td2" onclick="testGo(2)"></button>
+        </div>
+        <button class="test-btn" onclick="testNext()">&#8250;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter-section">
+    <svg style="position:absolute;top:32px;left:32px;opacity:0.1;pointer-events:none;" width="96" height="96" viewBox="0 0 80 80" fill="none"><circle cx="40" cy="40" r="34" fill="#C5A059" fill-opacity="0.08" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/></svg>
+    <svg style="position:absolute;bottom:32px;right:32px;opacity:0.07;pointer-events:none;" width="160" height="112" viewBox="0 0 100 80" fill="none">
+      <g transform="translate(10,20) rotate(30)"><ellipse cx="0" cy="0" rx="5" ry="8" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/></g>
+      <g transform="translate(60,10) rotate(-15)"><ellipse cx="0" cy="0" rx="4" ry="6" fill="#C5A059" fill-opacity="0.15" stroke="#C5A059" stroke-width="0.6" stroke-opacity="0.3"/></g>
+    </svg>
+    <div style="max-width:600px;margin:0 auto;text-align:center;position:relative;">
+      <div class="eyebrow" style="justify-content:center;margin-bottom:24px;"><div class="hline" style="width:48px;opacity:0.4;"></div><span class="eyebrow-label">Stay Connected</span><div class="hline" style="width:48px;opacity:0.4;"></div></div>
+      <h2>Letters from<br/><em>the Estate</em></h2>
+      <p class="sub-text">Receive harvest updates, new arrivals, seasonal brewing guides, and stories from the coffee forest — directly in your inbox.</p>
+      <div class="newsletter-form" id="nlForm">
+        <input type="email" id="nlInput" placeholder="your@email.com"/>
+        <button onclick="nlSub()">Join the Estate</button>
+      </div>
+      <p class="nl-success" id="nlSuccess">You're now part of the estate family.</p>
+      <p class="nl-note">We write rarely — only when it matters. No spam.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER HOME -->
+  <footer>
+    <div class="footer-wave"></div>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-brand-name">COORG</span>
+          <p>From the misty highlands of the Western Ghats, shade-grown with legacy, served with reverence. Now at The Gate Mall, Al Ghubra North, Muscat, Oman.</p>
+          <div class="footer-socials"><a class="footer-social-btn" href="#" title="Instagram">&#9674;</a><a class="footer-social-btn" href="#" title="Facebook">f</a></div>
+        </div>
+        <div class="footer-col"><h4>Explore</h4><a onclick="nav('story')">Our Story</a><a onclick="nav('cafe')">The Café</a><a onclick="nav('products')">Products</a><a onclick="nav('contact')">Contact</a></div>
+        <div class="footer-col"><h4>Our Coffee</h4><a onclick="nav('products')">Arabica Beans</a><a onclick="nav('products')">Robusta Beans</a><a onclick="nav('products')">Blends</a><a onclick="nav('contact')">Wholesale Enquiry</a></div>
+        <div class="footer-col"><h4>Farm &amp; Roastery</h4><a onclick="nav('story')">Farm Tours</a><a onclick="nav('story')">Cupping Sessions</a><a onclick="nav('story')">Roastery Visit</a><a onclick="nav('contact')">Wholesale</a></div>
+        <div class="footer-col"><h4>Visit Us</h4>
+          <div class="footer-contact-item"><span class="fc-icon">📍</span><p>The Gate Mall, 18 November St.<br/>Al Ghubra North, Muscat, Oman</p></div>
+          <div class="footer-contact-item"><span class="fc-icon">📞</span><p>+968 93245242</p></div>
+          <div class="footer-contact-item"><span class="fc-icon">✉</span><p>hello@coorgcoffee.com</p></div>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-bottom">
+        <p>© 2025 Coorg Coffee Roastery. All rights reserved.</p>
+        <div class="footer-sub"><span>The Gate Mall, Muscat</span><span style="color:rgba(45,70,53,0.8);">·</span><span>www.coorgcoffee.com</span><span style="color:rgba(45,70,53,0.8);">·</span><a href="https://www.google.com/maps/place/The+Gate/@23.6007983,58.3557816" target="_blank">Get Directions</a></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ══════════ PRODUCTS ══════════ -->
+<div id="page-products" class="page">
+  <div class="products-page-hero section-wrap" style="max-width:1280px;margin:0 auto;">
+    <div class="eyebrow" style="margin-bottom:32px;"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">Our Coffees</span></div>
+    <h1>Three <em>expressions</em><br/>of Coorg</h1>
+    <p>From the cloud-kissed hills of the Western Ghats — 100% Arabica beans, organically grown, hand-picked, and small-batch roasted at our Madikeri roastery.</p>
+  </div>
+  <div class="products-page-grid" id="prodGrid"></div>
+  <div style="max-width:1280px;margin:0 auto;padding:0 48px 100px;">
+    <div style="border:1px solid rgba(45,70,53,0.5);padding:52px;text-align:center;">
+      <p style="font-family:var(--font-sans);font-size:9px;letter-spacing:0.4em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">Wholesale &amp; Bulk Orders</p>
+      <p style="font-family:var(--font-sans);font-size:13px;color:rgba(242,244,243,0.5);margin-bottom:32px;">Looking for bulk supply for your café, restaurant, or retail store? We ship across the region and internationally.</p>
+      <button class="btn-outline-gold" onclick="nav('contact')">Get in Touch →</button>
+    </div>
+  </div>
+  <footer><div class="footer-wave"></div><div class="footer-inner"><div class="footer-top"><div class="footer-brand"><span class="footer-brand-name">COORG</span><p>The Essence of Coorg in a Cup. The Gate Mall, Muscat, Oman.</p></div><div class="footer-col"><h4>Explore</h4><a onclick="nav('story')">Our Story</a><a onclick="nav('cafe')">The Café</a><a onclick="nav('products')">Products</a><a onclick="nav('contact')">Contact</a></div><div class="footer-col"><h4>Our Coffee</h4><a onclick="nav('products')">Arabica Beans</a><a onclick="nav('products')">Robusta Beans</a><a onclick="nav('products')">Blends</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Farm &amp; Roastery</h4><a onclick="nav('story')">Farm Tours</a><a onclick="nav('story')">Cupping Sessions</a><a onclick="nav('story')">Roastery Visit</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Visit Us</h4><div class="footer-contact-item"><span class="fc-icon">📍</span><p>The Gate Mall, Muscat, Oman</p></div><div class="footer-contact-item"><span class="fc-icon">📞</span><p>+968 93245242</p></div></div></div><div class="footer-divider"></div><div class="footer-bottom"><p>© 2025 Coorg Coffee Roastery. All rights reserved.</p></div></div></footer>
+</div>
+
+<!-- ══════════ CAFÉ ══════════ -->
+<div id="page-cafe" class="page">
+  <div class="cafe-page-hero">
+    <div class="cafe-page-hero-bg"></div>
+    <div class="cafe-page-hero-overlay"></div>
+    <div class="cafe-page-hero-content">
+      <span class="eyebrow-label" style="display:block;margin-bottom:16px;">The Roastery Café · The Gate Mall, Muscat</span>
+      <h1>Our <em>Menu</em></h1>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;">
+        <button class="btn-gold" onclick="document.getElementById('reserveSec').scrollIntoView({behavior:'smooth'})">Reserve a Table →</button>
+        <a class="btn-wa" href="https://wa.me/96893245242" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L0 24l6.335-1.509A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.369l-.36-.214-3.73.888.929-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>
+          WhatsApp Reservation
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="info-strip">
+    <div class="info-cell"><span class="eyebrow-label">Location</span><p>The Gate Mall, 18 November St.<br/>Al Ghubra North, Muscat, Oman</p></div>
+    <div class="info-cell"><span class="eyebrow-label">Mon – Sat</span><p>7:00 AM – 9:00 PM</p></div>
+    <div class="info-cell"><span class="eyebrow-label">Sunday</span><p>8:00 AM – 8:00 PM</p></div>
+    <div class="info-cell"><span class="eyebrow-label">Reservations</span><p>+968 93245242</p></div>
+  </div>
+  <div class="menu-tabs-bar">
+    <button class="menu-tab-btn active" onclick="switchTab('hot',this)">Hot Coffee</button>
+    <button class="menu-tab-btn" onclick="switchTab('cold',this)">Cold Coffee</button>
+    <button class="menu-tab-btn" onclick="switchTab('frappe',this)">Frappes</button>
+    <button class="menu-tab-btn" onclick="switchTab('food',this)">Food</button>
+  </div>
+  <div class="menu-sec-hdr" id="menuSecHdr"><span class="sub">CLASSICS</span><h2 class="serif">Hot Coffee</h2></div>
+  <div class="menu-cards-grid" id="menuGrid"></div>
+
+  <!-- Logo banner -->
+  <div class="cafe-logo-bar">
+    <div>
+      <h3>"The Essence of Coorg in a Cup"</h3>
+      <p>Our beans are grown on our family farm in the Western Ghats and roasted in-house. From harvest to cup — every sip is Coorg.</p>
+    </div>
+  </div>
+
+  <!-- Map -->
+  <div class="map-section">
+    <div class="eyebrow" style="margin-bottom:24px;"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">Find Us</span></div>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d301.29736!2d58.3557816!3d23.6007983!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e8e01262676351b%3A0x3d31be53d4c657a5!2sThe%20Gate!5e0!3m2!1sen!2som!4v1680000000000!5m2!1sen!2som" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="The Gate Mall Muscat"></iframe>
+    <div class="map-footer">
+      <p>Coorg Coffee Roastery · The Gate Mall, 18 November St., Al Ghubra North, Muscat, Oman</p>
+      <a href="https://www.google.com/maps/place/The+Gate/@23.6007983,58.3557816,301m/" target="_blank">Open in Google Maps →</a>
+    </div>
+  </div>
+
+  <!-- Image strip -->
+  <div class="cafe-img-strip">
+    <div><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/1e05ac380_generated_image.png" alt="Café" loading="lazy"/></div>
+    <div><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/0ecaea482_generated_image.png" alt="Latte" loading="lazy"/></div>
+    <div><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/449a6e409_generated_image.png" alt="Pour over" loading="lazy"/></div>
+  </div>
+
+  <!-- Reserve -->
+  <div class="reserve-section" id="reserveSec">
+    <h2>Reserve a <em>Table</em></h2>
+    <p>Book your spot at Coorg Coffee Roastery — walk-ins welcome, reservations preferred.<br/>Or WhatsApp us at <a href="https://wa.me/96893245242" target="_blank" style="color:var(--whatsapp);text-decoration:none;">+968 93245242</a></p>
+    <div class="reserve-grid">
+      <input class="fi" type="text" placeholder="Your Name"/>
+      <input class="fi" type="email" placeholder="Email Address"/>
+      <input class="fi" type="tel" placeholder="Phone Number"/>
+      <input class="fi" type="date"/>
+      <select class="fi"><option value="">Select Time</option><option>7:00 AM</option><option>8:00 AM</option><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option><option>1:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option><option>6:00 PM</option><option>7:00 PM</option><option>8:00 PM</option></select>
+      <select class="fi"><option value="">Number of Guests</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select>
+    </div>
+    <textarea class="fta" placeholder="Special requests or notes..." style="margin-bottom:16px;"></textarea>
+    <button class="btn-gold" onclick="submitReserve()" style="width:100%;justify-content:center;">Confirm Reservation</button>
+    <div class="success-bar" id="reserveMsg">✓ &nbsp;Reservation received — we'll confirm via WhatsApp within 2 hours.</div>
+  </div>
+
+  <footer><div class="footer-wave"></div><div class="footer-inner"><div class="footer-top"><div class="footer-brand"><span class="footer-brand-name">COORG</span><p>The Essence of Coorg in a Cup. The Gate Mall, Muscat, Oman.</p></div><div class="footer-col"><h4>Explore</h4><a onclick="nav('story')">Our Story</a><a onclick="nav('cafe')">The Café</a><a onclick="nav('products')">Products</a><a onclick="nav('contact')">Contact</a></div><div class="footer-col"><h4>Our Coffee</h4><a onclick="nav('products')">Arabica Beans</a><a onclick="nav('products')">Robusta Beans</a><a onclick="nav('products')">Blends</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Farm &amp; Roastery</h4><a onclick="nav('story')">Farm Tours</a><a onclick="nav('story')">Cupping Sessions</a><a onclick="nav('story')">Roastery Visit</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Visit Us</h4><div class="footer-contact-item"><span class="fc-icon">📍</span><p>The Gate Mall, Al Ghubra North<br/>Muscat, Oman</p></div><div class="footer-contact-item"><span class="fc-icon">📞</span><p>+968 93245242</p></div></div></div><div class="footer-divider"></div><div class="footer-bottom"><p>© 2025 Coorg Coffee Roastery. All rights reserved.</p></div></div></footer>
+</div>
+
+<!-- ══════════ STORY ══════════ -->
+<div id="page-story" class="page">
+  <div class="story-hero">
+    <div class="eyebrow" style="margin-bottom:32px;"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">Our Heritage</span></div>
+    <h1>Three generations.<br/><em>One devotion.</em></h1>
+    <p>Our story begins in the mist-laden hills of Kodagu, Karnataka — where shade-grown coffee has been a way of life for over a century.</p>
+  </div>
+  <div class="story-full-img"><img src="https://media.base44.com/images/public/69ebc2cc8599861a01a644de/54c0026fe_generated_image.png" alt="Coorg coffee farm" loading="lazy"/></div>
+  <div class="timeline">
+    <div class="eyebrow" style="margin-bottom:48px;"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">Timeline</span></div>
+    <div class="tl-item"><div class="tl-year serif">1897</div><div class="tl-line"></div><div class="tl-body"><h3 class="serif">The First Seeds</h3><p>Our great-grandfather planted the first Arabica seedlings on 40 acres of forested hillside in Kodagu, inspired by traditional Coorg coffee cultivation practices.</p></div></div>
+    <div class="tl-item"><div class="tl-year serif">1952</div><div class="tl-line"></div><div class="tl-body"><h3 class="serif">Second Generation</h3><p>The farm expanded to 120 acres under our grandfather's stewardship. He pioneered shade-growing techniques that became standard across Kodagu.</p></div></div>
+    <div class="tl-item"><div class="tl-year serif">1989</div><div class="tl-line"></div><div class="tl-body"><h3 class="serif">Transition to Organic</h3><p>We became one of the first certified organic coffee farms in Karnataka, eliminating all chemical pesticides and embracing biodynamic soil management.</p></div></div>
+    <div class="tl-item"><div class="tl-year serif">2018</div><div class="tl-line"></div><div class="tl-body"><h3 class="serif">The Roastery Opens</h3><p>We installed our first small-batch drum roaster in Madikeri, closing the loop from farm to cup and launching direct-to-consumer relationships.</p></div></div>
+    <div class="tl-item"><div class="tl-year serif">2025</div><div class="tl-line"></div><div class="tl-body"><h3 class="serif">Muscat, Oman</h3><p>Coorg Coffee Roastery opens at The Gate Mall, Al Ghubra North, Muscat — bringing the essence of Kodagu to the Middle East.</p></div></div>
+  </div>
+  <div class="values-grid">
+    <div class="value-card"><h4 class="serif">Shade-Grown Legacy</h4><p>Every coffee plant grows beneath a canopy of silver oak and pepper vines, preserving biodiversity and producing beans of extraordinary complexity.</p></div>
+    <div class="value-card"><h4 class="serif">Zero Chemical Inputs</h4><p>Since 1989, certified organic. We use compost, green manure, and natural pest control — because great coffee starts with healthy soil.</p></div>
+    <div class="value-card"><h4 class="serif">Small-Batch Roasting</h4><p>Our micro-roastery processes in small batches to ensure precision, consistency, and the highest expression of each bean's terroir.</p></div>
+    <div class="value-card"><h4 class="serif">Direct Trade</h4><p>We pay fair wages and build long-term relationships with the 40+ farm workers who are the backbone of everything we produce.</p></div>
+    <div class="value-card"><h4 class="serif">Water Stewardship</h4><p>Rainwater harvesting and closed-loop wet-processing stations mean our footprint on Coorg's precious freshwater is minimal.</p></div>
+    <div class="value-card"><h4 class="serif">Forest Partnership</h4><p>We actively maintain wildlife corridors adjacent to our land, supporting the leopard, hornbill, and endemic flora of the Western Ghats.</p></div>
+  </div>
+  <footer><div class="footer-wave"></div><div class="footer-inner"><div class="footer-top"><div class="footer-brand"><span class="footer-brand-name">COORG</span><p>From the Western Ghats to Muscat, Oman.</p></div><div class="footer-col"><h4>Explore</h4><a onclick="nav('story')">Our Story</a><a onclick="nav('cafe')">The Café</a><a onclick="nav('products')">Products</a><a onclick="nav('contact')">Contact</a></div><div class="footer-col"><h4>Our Coffee</h4><a onclick="nav('products')">Arabica Beans</a><a onclick="nav('products')">Robusta Beans</a><a onclick="nav('products')">Blends</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Farm &amp; Roastery</h4><a onclick="nav('story')">Farm Tours</a><a onclick="nav('story')">Cupping Sessions</a><a onclick="nav('story')">Roastery Visit</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Visit Us</h4><div class="footer-contact-item"><span class="fc-icon">📍</span><p>The Gate Mall, Muscat, Oman</p></div><div class="footer-contact-item"><span class="fc-icon">📞</span><p>+968 93245242</p></div></div></div><div class="footer-divider"></div><div class="footer-bottom"><p>© 2025 Coorg Coffee Roastery. All rights reserved.</p></div></div></footer>
+</div>
+
+<!-- ══════════ CONTACT ══════════ -->
+<div id="page-contact" class="page">
+  <div class="story-hero">
+    <div class="eyebrow" style="margin-bottom:32px;"><div class="hline" style="width:48px;"></div><span class="eyebrow-label">Get In Touch</span></div>
+    <h1>Let's <em>talk</em> coffee.</h1>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h2>We'd love to<br/><em>hear from you</em></h2>
+      <p>Whether you're curious about our roasts, planning a visit, or exploring wholesale opportunities — we're here for you.</p>
+      <div class="contact-detail"><span class="contact-icon">📍</span><span>The Gate Mall, 18 November St.<br/>Al Ghubra North, Muscat, Oman</span></div>
+      <div class="contact-detail"><span class="contact-icon">📞</span><span>+968 93245242</span></div>
+      <div class="contact-detail"><span class="contact-icon">✉️</span><span>hello@coorgcoffee.com</span></div>
+      <div class="contact-detail"><span class="contact-icon">⏰</span><span>Mon–Sat: 7:00 AM – 9:00 PM<br/>Sunday: 8:00 AM – 8:00 PM</span></div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:28px;">
+        <a class="btn-wa" href="https://wa.me/96893245242" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.122.554 4.112 1.523 5.84L0 24l6.335-1.509A11.956 11.956 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 01-5.006-1.369l-.36-.214-3.73.888.929-3.638-.235-.374A9.818 9.818 0 1112 21.818z"/></svg>WhatsApp Us</a>
+        <button class="btn-outline-gold" onclick="window.open('https://www.google.com/maps/place/The+Gate/@23.6007983,58.3557816','_blank')">Get Directions →</button>
+      </div>
+    </div>
+    <div class="contact-form-wrap">
+      <input class="fi" type="text" placeholder="Your Name"/>
+      <input class="fi" type="email" placeholder="Email Address"/>
+      <select class="fi"><option value="">Topic</option><option>General Enquiry</option><option>Wholesale / Bulk Order</option><option>Farm Visit / Tour</option><option>Café Reservation</option><option>Press / Media</option></select>
+      <textarea class="fta" placeholder="Your message..." style="min-height:130px;"></textarea>
+      <button class="btn-gold" onclick="submitContact()" style="justify-content:center;">Send Message →</button>
+      <div class="success-bar" id="contactMsg">✓ &nbsp;Message received — we'll reply within 24 hours.</div>
+    </div>
+  </div>
+  <footer><div class="footer-wave"></div><div class="footer-inner"><div class="footer-top"><div class="footer-brand"><span class="footer-brand-name">COORG</span><p>The Essence of Coorg in a Cup.</p></div><div class="footer-col"><h4>Explore</h4><a onclick="nav('story')">Our Story</a><a onclick="nav('cafe')">The Café</a><a onclick="nav('products')">Products</a><a onclick="nav('contact')">Contact</a></div><div class="footer-col"><h4>Our Coffee</h4><a onclick="nav('products')">Arabica Beans</a><a onclick="nav('products')">Robusta Beans</a><a onclick="nav('products')">Blends</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Farm &amp; Roastery</h4><a onclick="nav('story')">Farm Tours</a><a onclick="nav('story')">Cupping Sessions</a><a onclick="nav('story')">Roastery Visit</a><a onclick="nav('contact')">Wholesale</a></div><div class="footer-col"><h4>Visit Us</h4><div class="footer-contact-item"><span class="fc-icon">📍</span><p>The Gate Mall, Muscat, Oman</p></div><div class="footer-contact-item"><span class="fc-icon">📞</span><p>+968 93245242</p></div></div></div><div class="footer-divider"></div><div class="footer-bottom"><p>© 2025 Coorg Coffee Roastery. All rights reserved.</p></div></div></footer>
+</div>
+
+<script>
+// ── DATA ──
+const PRODUCTS = [
+  { name:'Classic Craft Roast', subtitle:'Natural Kraft Edition', roast:'Medium Roast', type:'100% Arabica', weight:'500g',
+    desc:'Our signature medium roast — shade-grown Arabica from the misty highlands of Kodagu. Sun-dried, hand-sorted, and roasted to reveal notes of wild honey, toasted almond, and dark chocolate.',
+    notes:['Wild Honey','Toasted Almond','Dark Chocolate'],
+    image:'https://media.base44.com/images/public/69ebc2cc8599861a01a644de/1af786534_ChatGPT_Image_Apr_26__2026__10_53_53_PM-removebg-preview.png',
+    tagline:'The essence of Coorg in every sip' },
+  { name:'Midnight Reserve', subtitle:'Obsidian Black Edition', roast:'Dark Roast', type:'100% Arabica', weight:'500g',
+    desc:"A bold, full-bodied dark roast for those who demand intensity. Deep bittersweet cocoa, smoky cedar, and a long, warming finish — espresso perfection.",
+    notes:['Dark Cocoa','Smoky Cedar','Espresso'],
+    image:'https://media.base44.com/images/public/69ebc2cc8599861a01a644de/189210e09_ChatGPT_Image_Apr_26__2026__10_53_58_PM-removebg-preview.png',
+    tagline:'Dark. Intense. Unforgettable.' },
+  { name:'Forest Bloom', subtitle:'Highland Green Edition', roast:'Light-Medium Roast', type:'100% Arabica', weight:'500g',
+    desc:"A light-to-medium roast celebrating the lush biodiversity of Coorg's coffee forests. Bright citrus notes balance a floral jasmine body with clean, green sweetness.",
+    notes:['Citrus Zest','Jasmine','Green Sweetness'],
+    image:'https://media.base44.com/images/public/69ebc2cc8599861a01a644de/f47915ae4_ChatGPT_Image_Apr_26__2026__10_54_33_PM-removebg-preview.png',
+    tagline:'From forest to cup, naturally.' },
+];
+
+const HOT_IMG = 'https://media.base44.com/images/public/69ebc2cc8599861a01a644de/35391af01_generated_image.png';
+const COLD_IMG = 'https://media.base44.com/images/public/69ebc2cc8599861a01a644de/c18e92f71_generated_image.png';
+const FOOD_IMG = 'https://media.base44.com/images/public/69ebc2cc8599861a01a644de/dbaefb044_generated_image.png';
+const FRAPPE_IMG = 'https://media.base44.com/images/public/69ebc2cc8599861a01a644de/37e37c3fd_generated_image.png';
+
+const MENU = {
+  hot:{ label:'Hot Coffee', sub:'CLASSICS', items:[
+    {name:'Espresso',desc:'A short, intense shot of our Coorg arabica. Pure, aromatic and powerful.',img:HOT_IMG},
+    {name:'Cappuccino',desc:'Espresso with velvety steamed milk, topped with a thick cap of foam and a dusting of cocoa.',img:HOT_IMG},
+    {name:'Café Latte',desc:'Double shot espresso with smooth, creamy steamed milk. Our most popular morning cup.',img:HOT_IMG},
+    {name:'Flat White',desc:'Rich espresso with silky microfoam milk. A barista favourite — concentrated and smooth.',img:HOT_IMG},
+    {name:'Americano',desc:'Espresso gently extended with hot water. Clean, clear coffee for the purist.',img:HOT_IMG},
+    {name:'Mocha',desc:'Our estate espresso blended with dark chocolate and steamed milk. Indulgent and balanced.',img:HOT_IMG},
+    {name:'Cortado',desc:'1:1 espresso and warm milk. No fluff — just coffee and silk.',img:HOT_IMG},
+    {name:'Filter Coffee',desc:'Traditional South Indian filter decoction with milk, brewed fresh every morning.',img:HOT_IMG},
+  ]},
+  cold:{ label:'Cold Coffee', sub:'ICED & COLD', items:[
+    {name:'Cold Brew',desc:'Slow-steeped for 16 hours in cold water. Smooth, low-acid, naturally sweet.',img:COLD_IMG},
+    {name:'Iced Latte',desc:'Freshly pulled espresso over ice, topped with chilled milk. Clean and refreshing.',img:COLD_IMG},
+    {name:'Iced Americano',desc:'Double espresso poured over ice with a splash of cold water.',img:COLD_IMG},
+    {name:'Iced Cappuccino',desc:'Bold espresso shaken with ice and finished with a cloud of whipped milk foam.',img:COLD_IMG},
+    {name:'Cold Brew Tonic',desc:'Estate cold brew over tonic water and ice. Crisp, effervescent, surprisingly addictive.',img:COLD_IMG},
+    {name:'Classic Cold Coffee',desc:'Estate espresso blended with milk and sugar over ice. The crowd favourite.',img:COLD_IMG},
+  ]},
+  frappe:{ label:'Frappes', sub:'BLENDED', items:[
+    {name:'Coffee Frappe',desc:'Classic espresso blended smooth with ice and milk, topped with fresh whipped cream.',img:FRAPPE_IMG},
+    {name:'Chocolate Overload',desc:'Rich dark chocolate blended with ice and milk. Decadent, thick, and irresistible.',img:FRAPPE_IMG},
+    {name:'Caramel Frappe',desc:'Smooth caramel blended with coffee and ice, topped with cream and caramel drizzle.',img:FRAPPE_IMG},
+    {name:'Hazelnut Mocha Frappe',desc:'Espresso, hazelnut, and chocolate blended together over ice with whipped cream.',img:FRAPPE_IMG},
+    {name:'Vanilla Bean Frappe',desc:'Creamy vanilla blended with milk and ice. Non-coffee option, perfectly satisfying.',img:FRAPPE_IMG},
+  ]},
+  food:{ label:'Food', sub:'FROM THE KITCHEN', items:[
+    {name:'Butter Croissant',desc:'Flaky, golden and freshly baked in-house every morning. Best paired with a flat white.',img:FOOD_IMG},
+    {name:'Granola Bowl',desc:'House-toasted oat granola with coconut, seasonal fruit and a drizzle of estate honey.',img:FOOD_IMG},
+    {name:'Avocado Toast',desc:'Smashed avo on sourdough with pickled onion, chilli flakes and a squeeze of lime.',img:FOOD_IMG},
+    {name:'Banana Bread',desc:'House-baked with ripe Coorg bananas and dark chocolate chips. A slice of warmth.',img:FOOD_IMG},
+    {name:'Cheese Toast',desc:'Thick multigrain toast with aged cheddar, herbs and a hint of mustard.',img:FOOD_IMG},
+    {name:'Coorg Honey Toast',desc:'Thick-cut toast with estate raw honey, cultured butter and crushed walnuts.',img:FOOD_IMG},
+  ]},
+};
+
+const TESTIMONIALS = [
+  {quote:"The finest expression of Indian terroir I've encountered. Coorg Coffee tastes like the landscape it comes from — wild, layered, and unforgettable.",author:"The Indian Coffee Journal",role:"Review, 2024"},
+  {quote:"A revelation. The Estate Reserve is everything great Indian coffee can be — nuanced, complex, and deeply rooted in its origin. I've stopped buying anything else.",author:"Arjun Mehta",role:"Coffee Sommelier, Mumbai"},
+  {quote:"Walking through their estate and then drinking a cup brewed on-site was one of those rare moments when you truly taste the place. Sublime.",author:"Ananya Krishnan",role:"Food Writer, Bengaluru"},
+];
+
+// ── LOADER ──
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 2400);
+});
+
+// ── NAV ──
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  ['story','cafe','products','contact'].forEach(p => {
+    const el = document.getElementById('nl-'+p);
+    if(el) el.classList.toggle('active', p===page);
+  });
+  if(page==='products') renderProds();
+  if(page==='cafe'){ renderMenu('hot'); document.querySelectorAll('.menu-tab-btn').forEach((b,i)=>b.classList.toggle('active',i===0)); }
+}
+function toggleMob(){ document.getElementById('mobMenu').classList.toggle('open'); }
+window.addEventListener('scroll', ()=>{ document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY>60); });
+
+// ── RENDER PRODUCTS ──
+function renderProds(){
+  const el = document.getElementById('prodGrid');
+  if(!el||el.innerHTML.trim()) return;
+  el.innerHTML = PRODUCTS.map(p=>`
+    <div class="prod-card">
+      <div class="prod-img-area">
+        <div class="prod-img-glow"></div>
+        <div class="prod-roast-badge">${p.roast}</div>
+        <img src="${p.image}" alt="${p.name}" loading="lazy"/>
+        <div class="prod-img-fade"></div>
+      </div>
+      <div class="prod-body">
+        <p class="prod-subtitle">${p.subtitle}</p>
+        <h3 class="prod-name serif">${p.name}</h3>
+        <p class="prod-meta">${p.type} · ${p.weight}</p>
+        <p class="prod-desc">${p.desc}</p>
+        <p class="prod-notes-label">Tasting Notes</p>
+        <div class="prod-notes-row">${p.notes.map(n=>`<span class="prod-note">${n}</span>`).join('')}</div>
+        <div class="prod-certs"><span class="cert">Organic</span><span class="cert">Fairtrade</span><span class="cert">Eco-Friendly</span></div>
+      </div>
+      <p class="prod-tagline">${p.tagline}</p>
+    </div>`).join('');
+}
+
+// ── RENDER MENU ──
+function renderMenu(cat){
+  const el = document.getElementById('menuGrid');
+  const hdr = document.getElementById('menuSecHdr');
+  if(!el) return;
+  const data = MENU[cat];
+  if(hdr) hdr.innerHTML = `<span class="sub">${data.sub}</span><h2 class="serif">${data.label}</h2>`;
+  el.innerHTML = data.items.map(item=>`
+    <div class="menu-card">
+      <img class="menu-card-img" src="${item.img}" alt="${item.name}" loading="lazy"/>
+      <div class="menu-card-body">
+        <h4 class="menu-card-name serif">${item.name}</h4>
+        <p class="menu-card-desc">${item.desc}</p>
+      </div>
+    </div>`).join('');
+}
+function switchTab(cat,btn){
+  document.querySelectorAll('.menu-tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu(cat);
+}
+
+// ── TESTIMONIALS ──
+let testIdx = 0;
+function testGo(i){
+  testIdx=i;
+  document.getElementById('testText').textContent=TESTIMONIALS[i].quote;
+  document.getElementById('testAuthor').textContent=TESTIMONIALS[i].author;
+  document.getElementById('testRole').textContent=TESTIMONIALS[i].role;
+  document.querySelectorAll('.test-dot').forEach((d,j)=>d.classList.toggle('active',j===i));
+}
+function testNext(){ testGo((testIdx+1)%TESTIMONIALS.length); }
+function testPrev(){ testGo((testIdx-1+TESTIMONIALS.length)%TESTIMONIALS.length); }
+setInterval(testNext, 5000);
+
+// ── FORMS ──
+function nlSub(){
+  const v=document.getElementById('nlInput').value;
+  if(!v) return;
+  document.getElementById('nlForm').style.display='none';
+  document.getElementById('nlSuccess').style.display='block';
+}
+function submitReserve(){
+  const el=document.getElementById('reserveMsg');
+  el.style.display='block';
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),50);
+}
+function submitContact(){
+  const el=document.getElementById('contactMsg');
+  el.style.display='block';
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'center'}),50);
+}
+
+// init
+renderMenu('hot');
+</script>
+</body>
+</html>
